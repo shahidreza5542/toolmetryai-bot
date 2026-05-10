@@ -3,7 +3,14 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const hugs = [
   "https://media.giphy.com/media/od5H3PmEG5Ixn8aMXo/giphy.gif",
   "https://media.giphy.com/media/l4FGpPki5cw1T7gO0U/giphy.gif",
-  "https://media.giphy.com/media/3M4NnpLt1L5yK9z94F/giphy.gif"
+  "https://media.giphy.com/media/3M4NnpLt1L5yK9z94F/giphy.gif",
+  "https://media.giphy.com/media/13YqdH3fbS5TE/giphy.gif",
+  "https://media.giphy.com/media/L2Q7ip5D8e4I/giphy.gif",
+  "https://media.giphy.com/media/5eLAtE69RkklC/giphy.gif",
+  "https://media.giphy.com/media/2sXf9AUhQw1Bq/giphy.gif",
+  "https://media.giphy.com/media/143v0Y5P3py0H2/giphy.gif",
+  "https://media.giphy.com/media/5NTw9xYKzJfPC/giphy.gif",
+  "https://media.giphy.com/media/JBCjCk4m6Q3Oc/giphy.gif"
 ];
 
 module.exports = {
