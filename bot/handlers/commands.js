@@ -26,30 +26,8 @@ module.exports = async (client) => {
     }
   }
 
-  // Register slash commands with Discord
-  const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
-
-  try {
-    console.log('Started refreshing application (/) commands.');
-    console.log(`Total commands: ${commands.length}`);
-
-    // Register commands for specific guilds only (instant, no duplicates)
-    for (const [guildId, guild] of client.guilds.cache) {
-      try {
-        await rest.put(
-          Routes.applicationGuildCommands(process.env.DISCORD_CLIENT_ID, guildId),
-          { body: commands }
-        );
-        console.log(`✅ Commands registered for guild: ${guild.name} (${guildId})`);
-      } catch (guildError) {
-        console.error(`❌ Failed to register commands for ${guild.name}:`, guildError.message);
-      }
-    }
-
-    console.log('\n📋 Available commands:');
-    commands.forEach(cmd => console.log(`   /${cmd.name} - ${cmd.description}`));
-    
-  } catch (error) {
-    console.error('Error registering commands:', error);
-  }
+  // Commands are now loaded into memory only
+  // Use deploy-commands.js to register them with Discord
+  console.log(`\n📋 Loaded ${commands.length} commands into memory`);
+  console.log('Note: Run "node deploy-commands.js" to register/update commands with Discord');
 };

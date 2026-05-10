@@ -201,12 +201,24 @@ async function handleButtonInteraction(interaction) {
           content: `🔒 **Ticket closed by ${user.tag}**\n🗑️ Channel will be deleted in 5 minutes.` 
         });
 
-        setTimeout(async () => {
-          tickets.delete(ticketId);
-          await channel.delete().catch(err => console.error('Failed to delete channel:', err));
+        // Schedule deletion with better error handling
+        const deleteTimer = setTimeout(async () => {
+          try {
+            console.log(`Attempting to delete ticket channel: ${channel.name}`);
+            await channel.delete('Ticket closed - auto-deletion');
+            tickets.delete(ticketId);
+            console.log(`✅ Successfully deleted ticket channel: ${channel.name}`);
+          } catch (err) {
+            console.error(`❌ Failed to delete ticket channel ${channel.name}:`, err);
+            // Try to remove from tickets map even if channel deletion fails
+            tickets.delete(ticketId);
+          }
         }, 300000);
 
-        return await interaction.editReply({ content: '✅ Ticket closed.' });
+        // Store timer reference on ticket for potential cleanup
+        ticket.deleteTimer = deleteTimer;
+
+        return await interaction.editReply({ content: '✅ Ticket closed. Channel will be deleted in 5 minutes.' });
       }
 
       if (action === 'delete') {
@@ -218,10 +230,24 @@ async function handleButtonInteraction(interaction) {
 
         await interaction.editReply({ content: '🗑️ **Deleting ticket...**' });
         
+        // Clear any existing deletion timer
+        if (ticket.deleteTimer) {
+          clearTimeout(ticket.deleteTimer);
+        }
+
+        // Immediate deletion with better error handling
         setTimeout(async () => {
-          tickets.delete(ticketId);
-          await channel.delete().catch(err => console.error('Failed to delete channel:', err));
-        }, 3000);
+          try {
+            console.log(`Attempting to delete ticket channel: ${channel.name}`);
+            await channel.delete('Ticket manually deleted');
+            tickets.delete(ticketId);
+            console.log(`✅ Successfully deleted ticket channel: ${channel.name}`);
+          } catch (err) {
+            console.error(`❌ Failed to delete ticket channel ${channel.name}:`, err);
+            // Remove from tickets map even if channel deletion fails
+            tickets.delete(ticketId);
+          }
+        }, 1000);
       }
     }
 
