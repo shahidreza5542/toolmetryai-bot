@@ -91,4 +91,4 @@ UPI_ID=yourupi@upi
 
 ## License
 
-MIT
+MIT sd
