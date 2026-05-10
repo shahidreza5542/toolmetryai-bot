@@ -36,7 +36,6 @@ module.exports = {
       .setTitle('🤗 Hug!')
       .setDescription(`${interaction.user} hugged ${targetUser}!`)
       .setImage(hugGif)
-      .setThumbnail(hugGif)
       .setColor(0xFF69B4)
       .setFooter({ text: 'Toolmetry AI' })
       .setTimestamp();
